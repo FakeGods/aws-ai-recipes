@@ -1,17 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 :root {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
   font-weight: 400;
 
-  --primary-color: #ff6b35;
-  --secondary-color: #f7931e;
-  --text-dark: #2d3748;
-  --text-light: #718096;
-  --bg-light: #f7fafc;
+  /* Colors */
+  --primary-50: #fff5f2;
+  --primary-100: #ffe5df;
+  --primary-500: #ff6b35;
+  --primary-600: #e65a2b;
+  --primary-700: #cc4a1f;
+  
+  --secondary-500: #f7931e;
+  --secondary-600: #de8419;
+  
+  --neutral-50: #f9fafb;
+  --neutral-100: #f3f4f6;
+  --neutral-200: #e5e7eb;
+  --neutral-300: #d1d5db;
+  --neutral-400: #9ca3af;
+  --neutral-500: #6b7280;
+  --neutral-600: #4b5563;
+  --neutral-700: #374151;
+  --neutral-800: #1f2937;
+  --neutral-900: #111827;
+  
+  /* Legacy support */
+  --primary-color: var(--primary-500);
+  --secondary-color: var(--secondary-500);
+  --text-dark: var(--neutral-900);
+  --text-light: var(--neutral-600);
+  --bg-light: var(--neutral-50);
   --bg-white: #ffffff;
-  --border-color: #e2e8f0;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --border-color: var(--neutral-300);
+  
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
 
   color: var(--text-dark);
   background-color: var(--bg-light);
@@ -39,36 +76,63 @@ body {
 }
 
 h1 {
-  font-size: 2.5em;
-  line-height: 1.2;
-  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.025em;
   color: var(--text-dark);
 }
 
 h2 {
-  font-size: 1.8em;
-  font-weight: 600;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--text-dark);
 }
 
 h3 {
-  font-size: 1.3em;
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
   font-weight: 600;
   color: var(--text-dark);
 }
 
+p {
+  color: var(--neutral-600);
+  line-height: 1.75;
+}
+
 button {
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   border: none;
-  padding: 0.75em 1.5em;
-  font-size: 1em;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   font-family: inherit;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
   color: white;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow);
+  position: relative;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--primary-600), var(--secondary-600));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+button > * {
+  position: relative;
+  z-index: 1;
+}
+
+button:hover::before {
+  opacity: 1;
 }
 
 button:hover {
@@ -78,25 +142,40 @@ button:hover {
 
 button:active {
   transform: translateY(0);
+  box-shadow: var(--shadow);
 }
 
 button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  box-shadow: var(--shadow-sm);
 }
 
 input, textarea {
-  border-radius: 8px;
-  border: 2px solid var(--border-color);
-  padding: 0.75em 1em;
-  font-size: 1em;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
   font-family: inherit;
   background-color: var(--bg-white);
-  transition: border-color 0.3s ease;
+  color: var(--neutral-900);
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-xs);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--neutral-400);
+}
+
+input:hover,
+textarea:hover {
+  border-color: var(--neutral-400);
 }
 
 input:focus, textarea:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1), var(--shadow-sm);
 }
